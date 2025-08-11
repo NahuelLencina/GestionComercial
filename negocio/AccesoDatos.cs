@@ -16,7 +16,7 @@ namespace negocio
         //Creo un Constructor 
         public AccesoDatos()
         {
-            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=POKEDEX_DB; integrated security=true");
+            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=GestionComercial_DB; integrated security=true");
             comando = new SqlCommand();
         }
 

@@ -55,11 +55,6 @@
       <Name>dominio</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\.editorconfig">
-      <Link>.editorconfig</Link>
-    </None>
-  </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <Content Include="Script_bd\Usuario_table.sql" />

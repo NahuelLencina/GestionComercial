@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.34114.132
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionBicicleteria", "GestionBicicleteria\GestionBicicleteria.csproj", "{96BA43B7-3670-4FEF-9313-97F6AB41C12C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gestionBicicleteria", "GestionBicicleteria\gestionBicicleteria.csproj", "{96BA43B7-3670-4FEF-9313-97F6AB41C12C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dominio", "dominio\dominio.csproj", "{05DCD793-0404-4539-8E0C-452DB4116354}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "negocio", "negocio\negocio.csproj", "{F9636C70-B4B9-4ABD-9CF2-F8EAE0216BA7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{96BA43B7-3670-4FEF-9313-97F6AB41C12C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96BA43B7-3670-4FEF-9313-97F6AB41C12C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96BA43B7-3670-4FEF-9313-97F6AB41C12C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05DCD793-0404-4539-8E0C-452DB4116354}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05DCD793-0404-4539-8E0C-452DB4116354}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05DCD793-0404-4539-8E0C-452DB4116354}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05DCD793-0404-4539-8E0C-452DB4116354}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9636C70-B4B9-4ABD-9CF2-F8EAE0216BA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9636C70-B4B9-4ABD-9CF2-F8EAE0216BA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9636C70-B4B9-4ABD-9CF2-F8EAE0216BA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9636C70-B4B9-4ABD-9CF2-F8EAE0216BA7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
