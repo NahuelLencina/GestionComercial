@@ -16,7 +16,7 @@ namespace GestionBicicleteria
                 {
 
                     navfavoritos.Visible = false;
-                    navPokList.Visible = false;
+                    navFormArticulos.Visible = false;
 
 
                     if (!(Page is Login || Page is Registro || Page is Default || Page is Error))
@@ -41,10 +41,10 @@ namespace GestionBicicleteria
                     if (Seguridad.esAdmin(usuario))
                     {
                         lblUserName.Text += " Admin";
-                        navPokList.Visible = true;
+                        navFormArticulos.Visible = true;
                     }
                     else
-                        navPokList.Visible = false;
+                        navFormArticulos.Visible = false;
                 }
             }
         }

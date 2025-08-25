@@ -56,8 +56,8 @@ C:\Users\Nahuel Lencina\Desktop\GestionComercial\GestionBicicleteria\bin\negocio
 C:\Users\Nahuel Lencina\Desktop\GestionComercial\GestionBicicleteria\bin\dominio.pdb
 C:\Users\Nahuel Lencina\Desktop\GestionComercial\GestionBicicleteria\bin\negocio.pdb
 C:\Users\Nahuel Lencina\Desktop\GestionComercial\GestionBicicleteria\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\Nahuel Lencina\Desktop\GestionComercial\GestionBicicleteria\obj\Debug\GestionBicicleteria.csproj.AssemblyReference.cache
-C:\Users\Nahuel Lencina\Desktop\GestionComercial\GestionBicicleteria\obj\Debug\GestionBicicleteria.csproj.CoreCompileInputs.cache
-C:\Users\Nahuel Lencina\Desktop\GestionComercial\GestionBicicleteria\obj\Debug\GestionBicicleteria.csproj.CopyComplete
+C:\Users\Nahuel Lencina\Desktop\GestionComercial\GestionBicicleteria\obj\Debug\gestionBicicleteria.csproj.AssemblyReference.cache
+C:\Users\Nahuel Lencina\Desktop\GestionComercial\GestionBicicleteria\obj\Debug\gestionBicicleteria.csproj.CoreCompileInputs.cache
+C:\Users\Nahuel Lencina\Desktop\GestionComercial\GestionBicicleteria\obj\Debug\gestionBicicleteria.csproj.CopyComplete
 C:\Users\Nahuel Lencina\Desktop\GestionComercial\GestionBicicleteria\obj\Debug\GestionBicicleteria.dll
 C:\Users\Nahuel Lencina\Desktop\GestionComercial\GestionBicicleteria\obj\Debug\GestionBicicleteria.pdb

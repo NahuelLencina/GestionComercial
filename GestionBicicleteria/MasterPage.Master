@@ -25,7 +25,7 @@
 
                     <div class="navbar-nav">
                         <asp:HyperLink CssClass="nav-link active" NavigateUrl="~/" Text="Home" runat="server" />
-                        <asp:HyperLink ID="navPokList" CssClass="nav-link" NavigateUrl="~/PokemonsLista.aspx" Text="Lista Pokemons" runat="server" />
+                        <asp:HyperLink ID="navFormArticulos" CssClass="nav-link" NavigateUrl="~/FormularioArticulo.aspx" Text="Formulario De Articulos" runat="server" />
                         <asp:HyperLink CssClass="nav-link" NavigateUrl="~/EjemploEmail/EnvioEmail.aspx" Text="Envio E-mail" runat="server" />
                         <asp:HyperLink ID="navfavoritos" CssClass="nav-link" NavigateUrl="~/Favoritos.aspx" Text="Favoritos" runat="server" />
                         <asp:HyperLink CssClass="nav-link" NavigateUrl="~/MiPerfil.aspx" Text="Mi Perfil" runat="server" />
