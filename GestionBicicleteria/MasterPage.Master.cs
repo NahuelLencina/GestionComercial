@@ -19,7 +19,7 @@ namespace GestionBicicleteria
                     navFormArticulos.Visible = false;
 
 
-                    if (!(Page is Login || Page is Registro || Page is Default || Page is Error))
+                    if (!(Page is Login || Page is Registro || Page is Default || Page is gestionComercialFrond || Page is Error || Page is DetalleArticulo))
                     {
                         Response.Redirect("~/Login.aspx", false);
                     }

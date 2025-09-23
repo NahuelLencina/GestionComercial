@@ -42,7 +42,7 @@ namespace GestionBicicleteria
                     user.Usuario = txtUsuario.Text;
                     user.FechaNacimiento = DateTime.Parse(txtFechaNac.Text);
 
-                    // Guardar imagen solo si hay archivo nuevo
+                    // Guardar imagen solo si hay archivo nuevo en el FileUpload
                     if (txtImagen.HasFile)
                     {
                         string extension = System.IO.Path.GetExtension(txtImagen.FileName);

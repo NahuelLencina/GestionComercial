@@ -21,6 +21,15 @@ namespace dominio
 
         public int idCategoria { get; set; }
         public Categoria Categoria { get; set; }
+
+        // Solo para la tabla ventas
+        public int Cantidad { get; set; } =1;
+
+        //Solo para el gridView 
+        public double Total 
+        {
+            get { return Precio * Cantidad;}  
+        }
     }
 
 }

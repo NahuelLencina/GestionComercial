@@ -71,6 +71,7 @@ namespace negocio
         }
 
 
+
         public List<Articulo> listaArticulosConSP(int id)
         {
             List<Articulo> lista = new List<Articulo>();
@@ -128,25 +129,52 @@ namespace negocio
 
         }
 
-        public void agregarArticulo(Articulo art)
+        public List<Articulo> filtrar(string nombre, string categoria, string proveedor)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            List<Articulo> lista = new List<Articulo>(); 
+
+            try
+            {
+             
+                    
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public int agregarArticulo(Articulo art)
         {
             AccesoDatos datos = new AccesoDatos();
             try
-            {         
-                datos.setearConsulta("INSERT INTO PRODUCTOS (Nombre, Precio, UrlImagen, Activo, idCategoria, idProveedor, descripcion) VALUES(@nombre, @precio, @img, @activo, @idCategoria, @idProveedor, @descripcion)");
+            {
+                datos.setearConsulta(
+                    "INSERT INTO PRODUCTOS (Nombre, Precio, UrlImagen, Activo, idCategoria, idProveedor, descripcion) " +
+                    "OUTPUT INSERTED.Id " +
+                    "VALUES(@nombre, @precio, @img, @activo, @idCategoria, @idProveedor, @descripcion)"
+                );
+
                 datos.setearParametro("@nombre", art.Nombre);
                 datos.setearParametro("@precio", art.Precio);
                 datos.setearParametro("@activo", art.Activo);
-                if (string.IsNullOrEmpty(art.UrlImagen))
-                    datos.setearParametro("@img", DBNull.Value);
-                else
-                    datos.setearParametro("@img", art.UrlImagen);
                 datos.setearParametro("@descripcion", art.Descripcion);
                 datos.setearParametro("@idCategoria", art.idCategoria);
                 datos.setearParametro("@idProveedor", art.idProveedor);
 
-                datos.ejecutarAccion();
-
+                if (string.IsNullOrEmpty(art.UrlImagen))
+                    datos.setearParametro("@img", DBNull.Value);
+                else
+                    datos.setearParametro("@img", art.UrlImagen);
+              
+                return datos.ejecutarAccionScalar(); // ✅ devuelve el Id
             }
             catch (Exception ex)
             {
@@ -156,9 +184,9 @@ namespace negocio
             {
                 datos.cerrarConexion();
             }
-
-
         }
+
+
         public void eliminar(int Id)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -170,6 +198,29 @@ namespace negocio
             }
             catch (Exception ex)
             {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public string obtenerNombreImg(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            string nombreImg = null;
+            try
+            {
+                datos.setearConsulta("select UrlImagen from productos where ID = @id");
+                datos.setearParametro("@id", id);
+                datos.setearParametro("@UrlImagen", nombreImg);
+                datos.ejecutarAccion();
+                return nombreImg;
+            }
+            catch (Exception ex)
+            {
+
                 throw ex;
             }
             finally
@@ -231,6 +282,11 @@ namespace negocio
                 datos.cerrarConexion();
             }
             
+        }
+
+        public Articulo BuscarPorId(int id)
+        {
+            return listaArticulosConSP().FirstOrDefault(a => a.Id == id); 
         }
 
     }

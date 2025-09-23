@@ -49,6 +49,8 @@ namespace negocio
             }
         }
 
+
+
         public void ejecutarAccion()
         {
             comando.Connection = conexion;
@@ -91,9 +93,6 @@ namespace negocio
             conexion.Close();
         }
 
-        public void consumirApi()
-        {
-
-        }
+    
     }
 }

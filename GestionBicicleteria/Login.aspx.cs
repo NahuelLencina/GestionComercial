@@ -22,7 +22,7 @@ namespace GestionBicicleteria
                 if (negocio.Login(trainee))
                 {
                     Session.Add("trainee", trainee);
-                    Response.Redirect("~/MiPerfil.aspx", false);
+                    Response.Redirect("~/Default.aspx", false);
                 }
                 else
                 {

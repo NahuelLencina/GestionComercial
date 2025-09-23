@@ -23,25 +23,28 @@ namespace GestionBicicleteria
             {
                 btnEliminarArt.Visible = true;
                 btnInactivar.Visible = true;
+                txtNuevoModificarArt.InnerText = "Modificar Articulo";
+                btnAceptar.Text = "Modificar";              
             }
             else
             {
                 btnEliminarArt.Visible = false;
                 btnInactivar.Visible = false;
+                txtNuevoModificarArt.InnerText = "Agregar Articulo";
             }
             try
             {
-               
+                if (!IsPostBack)
+                {
                     CargaCategorias();
                     CargaProveedores();
 
-                
+                    string idStr = Request.QueryString["id"] ?? "";
 
-                string idStr = Request.QueryString["id"] ?? "";
-
-                if (!string.IsNullOrEmpty(idStr) && int.TryParse(idStr, out int id))
-                {
-                    PrecargaArticulos(id);
+                    if (!string.IsNullOrEmpty(idStr) && int.TryParse(idStr, out int id))
+                    {
+                        PrecargaArticulos(id);
+                    }
                 }
             }
             catch (Exception ex)
@@ -79,8 +82,7 @@ namespace GestionBicicleteria
                 Articulo seleccionado = lista[0];
                 Session["artSeleccionado"] = seleccionado;
 
-                if (!IsPostBack)
-                {
+                
                     TxtId.Text = id.ToString();
                     txtNombre.Text = seleccionado.Nombre;
                     txtPrecio.Text = seleccionado.Precio.ToString("0.00");
@@ -102,7 +104,7 @@ namespace GestionBicicleteria
                     //  Proveedor
                     if (seleccionado.idProveedor > 0)
                         ddlProveedores.SelectedValue = seleccionado.idProveedor.ToString();
-                }
+                
             }
             else
             {
@@ -118,7 +120,12 @@ namespace GestionBicicleteria
                 ArticuloNegocio negocio = new ArticuloNegocio();
 
                 nuevo.Nombre = txtNombre.Text;
-                nuevo.Precio = double.Parse(txtPrecio.Text);
+                
+                if (string.IsNullOrWhiteSpace(txtPrecio.Text))
+                    nuevo.Precio = 0;
+                else
+                    nuevo.Precio = double.Parse(txtPrecio.Text);
+
                 nuevo.Descripcion = txtDescripcion.Text;
                 nuevo.Proveedor = new Proveedor();
                 nuevo.idProveedor = int.Parse(ddlProveedores.SelectedValue);
@@ -126,34 +133,50 @@ namespace GestionBicicleteria
                 nuevo.idCategoria = int.Parse(ddlCategoria.SelectedValue);
                 nuevo.Activo = true;
 
-                // Guardar imagen solo si hay archivo nuevo
-                if (txtImagenArticulo.HasFile)
-                {
-                    string extension = System.IO.Path.GetExtension(txtImagenArticulo.FileName);
-                    string nombreArchivo = "perfil-" + nuevo.Id + extension;
-                    string rutaDisco = Server.MapPath("~/Images/" + nombreArchivo);
-                    txtImagenArticulo.SaveAs(rutaDisco);
-                    nuevo.UrlImagen = nombreArchivo;
-                }
-
+               // Modificar
                 if (Request.QueryString["id"] != null)
                 {
-                    nuevo.Id = int.Parse(TxtId.Text);
+                    nuevo.Id = int.Parse(TxtId.Text); 
+                    // recuperamos la imagen guardada en la BD
+                    Articulo seleccionado = (Articulo)Session["artSeleccionado"];
+                    nuevo.UrlImagen = seleccionado.UrlImagen;
+                    guardarImagen(nuevo);
+                    //Actualizamos el Articulo
                     negocio.modificarArticulo(nuevo);
+                         
                 }
+                // Agregar
                 else
                 {
-                    nuevo.Activo = true;
-                    negocio.agregarArticulo(nuevo);
-                }
+                    int idGenerado = negocio.agregarArticulo(nuevo); // Devuelve el ID de la base de datos
+                    nuevo.Id = idGenerado;
+                    guardarImagen(nuevo);
+                    negocio.modificarArticulo(nuevo);
+                }   
                 Response.Redirect("Default.aspx");
-
             }
+
             catch (Exception ex)
             {
+                // lblError.Text = "Error: " + ex.Message;
                 throw ex;
             }
 
+        }
+
+        protected void guardarImagen(Articulo nuevo)
+        {
+            nuevo.Activo = true;
+
+            if (txtImagenArticulo.HasFile)
+            {
+                string extension = System.IO.Path.GetExtension(txtImagenArticulo.FileName);
+                string nombreArchivo = "FotoArticulo-" + nuevo.Id + extension;
+                string rutaDisco = Server.MapPath("~/Images/" + nombreArchivo);
+                txtImagenArticulo.SaveAs(rutaDisco);
+                nuevo.UrlImagen = nombreArchivo;
+            }
+ 
         }
 
         protected void btnInactivar_Click1(object sender, EventArgs e)
@@ -206,6 +229,10 @@ namespace GestionBicicleteria
         protected void btnConfirmaEliminacion_Click(object sender, EventArgs e)
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
+            Articulo seleccionado = (Articulo)Session["artSeleccionado"];
+            string rutaImg = Server.MapPath("~/Images/" + seleccionado.UrlImagen);
+            if (System.IO.File.Exists(rutaImg))
+                System.IO.File.Delete(rutaImg);
             negocio.eliminar(int.Parse(TxtId.Text));
             Response.Redirect("Default.aspx");
         }

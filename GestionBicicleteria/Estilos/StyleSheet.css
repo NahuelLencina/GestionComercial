@@ -1,0 +1,40 @@
+﻿.botones {
+    display: flex; /* Los pone en fila */
+    gap: 6px; /* Espacio entre botones */
+}
+
+.boton-circular {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 14px;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #3498db; /* color por defecto */
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+    .boton-circular:hover {
+        transform: scale(1.1);
+    }
+
+    /* Colores */
+    .boton-circular.azul {
+        background-color: #3498db;
+    }
+
+    .boton-circular.rojo {
+        background-color: #e74c3c;
+    }
+
+    .boton-circular.morado {
+        background-color: #9b59b6;
+    }
+
+.text-center {
+    text-align: start;
+}
