@@ -38,3 +38,26 @@
 .text-center {
     text-align: start;
 }
+
+.btn-gradient {
+    background: linear-gradient(135deg, #ff4d4d, #ff7b7b);
+    border: none;
+    transition: all 0.3s ease;
+}
+
+    .btn-gradient:hover {
+        background: linear-gradient(135deg, #ff1a1a, #ff6666);
+        transform: translateY(-2px);
+        box-shadow: 0 0 10px rgba(255, 77, 77, 0.6);
+    }
+
+
+
+.btn-limpiar i {
+    margin-right: 8px;
+    transition: transform 0.3s ease;
+}
+
+.btn-limpiar:hover i {
+    transform: rotate(-20deg);
+}

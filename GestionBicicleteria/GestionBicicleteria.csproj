@@ -71,7 +71,9 @@
     <Content Include="DetalleArticulo.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="Estilos\StyleSheet.css" />
+    <Content Include="FormularioAltaCliente.aspx" />
     <Content Include="FormularioArticulo.aspx" />
+    <Content Include="FormularioVenta.aspx" />
     <Content Include="gestionComercialFrond.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
@@ -101,12 +103,26 @@
     <Compile Include="Error.aspx.designer.cs">
       <DependentUpon>Error.aspx</DependentUpon>
     </Compile>
+    <Compile Include="FormularioAltaCliente.aspx.cs">
+      <DependentUpon>FormularioAltaCliente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormularioAltaCliente.aspx.designer.cs">
+      <DependentUpon>FormularioAltaCliente.aspx</DependentUpon>
+    </Compile>
     <Compile Include="FormularioArticulo.aspx.cs">
       <DependentUpon>FormularioArticulo.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="FormularioArticulo.aspx.designer.cs">
       <DependentUpon>FormularioArticulo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormularioVenta.aspx.cs">
+      <DependentUpon>FormularioVenta.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormularioVenta.aspx.designer.cs">
+      <DependentUpon>FormularioVenta.aspx</DependentUpon>
     </Compile>
     <Compile Include="gestionComercialFrond.aspx.cs">
       <DependentUpon>gestionComercialFrond.aspx</DependentUpon>

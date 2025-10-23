@@ -6,12 +6,17 @@ using System.Threading.Tasks;
 using negocio;
 using dominio;
 using System.Web.UI.WebControls;
+using System.Web.UI;
+using System.Web.Services;
+using System.Web.Script.Serialization;
+
 
 namespace GestionBicicleteria
 {
     public partial class Default : System.Web.UI.Page
     {
         public bool FiltroAvanzado { get; set; }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Seguridad.esAdmin(Session["trainee"]))
@@ -24,6 +29,7 @@ namespace GestionBicicleteria
             if (!IsPostBack)
             {
                 ArticuloNegocio negocio = new ArticuloNegocio();
+
                 Session.Add("listaArticulos", negocio.listaArticulosConSP());
 
                 if (Session["PageSize"] != null)
@@ -32,15 +38,36 @@ namespace GestionBicicleteria
                     ddlCambiarFilas.SelectedValue = dgvArticulos.PageSize.ToString();
                 }
                 CargarGridview();
-                pnlPresupuesto.Visible = false;
+
+                if (Session["presupuesto"] != null)
+                {
+                    // Cambia el tamaño del gridView
+                    dgvArticulos.Visible = true;
+                    pnlArticulos.CssClass = "col-md-7";
+
+                    // Muestro el GripView presupuesto
+                    pnlPresupuesto.Visible = true;
+                    titlePresupuesto.Visible = true;
+
+                    dgvPresupuesto.DataSource = (List<Articulo>)Session["presupuesto"];
+                    dgvPresupuesto.DataBind();
+                }
+               
+                else
+                {
+                    pnlPresupuesto.Visible = false;
+                    titlePresupuesto.Visible = false;
+                    pnlArticulos.CssClass = "col-12";
+                }
             }
 
-
         }
+
         private void CargarGridview(List<Articulo> lista = null)
         {
             if (lista == null)
                 lista = (List<Articulo>)Session["listaArticulos"];
+
 
             dgvArticulos.DataSource = lista;
             dgvArticulos.DataBind();
@@ -105,12 +132,19 @@ namespace GestionBicicleteria
 
         protected void btnCrearPresupuesto_Click(object sender, EventArgs e)
         {
+            ClienteNegocio negocio = new ClienteNegocio();
+            Session.Add("listaClientes", negocio.storeListarClientes());
+
+
             // Cambia el tamaño del gridView
-            pnlArticulos.CssClass = "col-7";
             dgvArticulos.Columns[4].Visible = true;
+            pnlArticulos.CssClass = "col-md-7";
 
             // Muestro el GripView presupuesto
             pnlPresupuesto.Visible = true;
+            titlePresupuesto.Visible = true;
+
+
 
             if (Session["presupuesto"] == null)
                 Session["presupuesto"] = new List<Articulo>();
@@ -131,11 +165,11 @@ namespace GestionBicicleteria
             // Busco el articulo seleccionado en la lista Articulos
             var listaArticulos = (List<Articulo>)Session["listaArticulos"];
             var articuloSeleccionado = listaArticulos.FirstOrDefault(a => a.Id == idArticulo);
-           
+
             // Obtengo la lista de presupuesto o la creo 
             var presupuesto = (List<Articulo>)Session["presupuesto"] ?? new List<Articulo>();
 
-            
+
 
             // si hay un articulo seleccionado sumo o agrego
             if (articuloSeleccionado != null)
@@ -189,7 +223,7 @@ namespace GestionBicicleteria
 
             // Busco el id en la lista presupuesto
             var presupuesto = (List<Articulo>)Session["presupuesto"];
-            
+
             // convierto el valor ingresado en el textBox
             int nuevaCantidad;
 
@@ -198,7 +232,8 @@ namespace GestionBicicleteria
                 var articulo = presupuesto.FirstOrDefault(a => a.Id == idArticulo);
                 if (articulo != null)
                     articulo.Cantidad = nuevaCantidad;
-;            }
+                ;
+            }
 
             // Actualizamos la Session presupuesto
 
@@ -207,5 +242,129 @@ namespace GestionBicicleteria
             dgvPresupuesto.DataBind();
 
         }
+
+        protected bool cargaCliente
+        {
+            get { return ViewState["formularioCliente"] != null && (bool)ViewState["formularioCliente"]; }
+            set { ViewState["formularioCliente"] = value; }
+        }
+
+        protected void btnCargaCliente_Click(object sender, EventArgs e)
+        {
+            ClienteNegocio negocio = new ClienteNegocio();
+            try
+            {
+                cargaCliente = !cargaCliente;
+                // Mostrar u ocultar el panel según el estado actual
+                pnlCargaCliente.Visible = cargaCliente;
+                Session["listaClientes"] = negocio.storeListarClientes();
+                // Cambiar el texto del botón
+                btnCargaCliente.Text = cargaCliente ? "Ocultar datos" : "Datos Cliente";
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        // Metodo para Obtener clientes con el mismo nombre ingresado
+        public List<Cliente> obtenerListaClientes(string nombre)
+        {
+            ClienteNegocio negocio = new ClienteNegocio();
+            return negocio.storeListarClientes(nombre);
+        }
+
+        // Metodo para Obtener lista de clientes
+        public List<Cliente> obtenerListaClientes()
+        {
+            ClienteNegocio negocio = new ClienteNegocio();
+            return negocio.storeListarClientes();
+        }
+        protected void btnLimpiarPresupuesto_Click(object sender, EventArgs e)
+        {
+            var enPresupuesto = Session["presupuesto"] as List<Articulo>;
+
+            if (enPresupuesto != null && enPresupuesto.Count > 0)
+            {
+                enPresupuesto.Clear();
+                Session.Remove("presupuesto");
+
+                //Refrescamos el GridView
+                dgvPresupuesto.DataSource = null;
+                dgvPresupuesto.DataBind();
+            }
+            else
+            {
+                //Cartel Ya esta vacio
+            }
+        }
+
+        protected void txtNombreCliente_TextChanged(object sender, EventArgs e)
+        {
+
+            if (txtNombreCliente.Text.Length >= 3)
+            {
+                var lista = obtenerListaClientes(txtNombreCliente.Text);
+                gvClientes.DataSource = lista;
+                gvClientes.DataBind();
+
+                // Abrir el offcanvas usando JS desde el servidor
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "abrirOffcanvas",
+                    "var offcanvas = new bootstrap.Offcanvas(document.getElementById('offcanvasRight')); offcanvas.show();", true);
+
+            }
+        }
+
+        protected void gvClientes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (gvClientes.SelectedDataKey == null)
+                return;
+
+            int idCliente = Convert.ToInt32(gvClientes.SelectedDataKey.Value);
+            var listaClientes = Session["listaClientes"] as List<Cliente>;
+
+            if (listaClientes == null)
+                return;
+
+            var cliente = listaClientes.FirstOrDefault(c => c.Id == idCliente);
+            if (cliente == null)
+                return;
+
+            // Asignamos los datos
+            txtNombreCliente.Text = cliente.Nombre;
+            txtCuit.Text = cliente.Cuit;
+            txtDireccion.Text = cliente.Direccion;
+            txtMail.Text = cliente.Email;
+
+            // Cerramos el offcanvas
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarOffcanvas",
+                "var offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('offcanvasRight')); if(offcanvas) offcanvas.hide();", true);
+        }
+
+        protected void btnTodosClientes_Click(object sender, EventArgs e)
+        {
+
+            var lista = obtenerListaClientes();
+            gvClientes.DataSource = lista;
+            gvClientes.DataBind();
+            // Abrir el offcanvas usando JS desde el servidor
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "abrirOffcanvas",
+                "var offcanvas = new bootstrap.Offcanvas(document.getElementById('offcanvasRight')); offcanvas.show();", true);
+        }
+
+        protected void gvClientes_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+
+        }
+
+        protected void btnAgregarCliente_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("FormularioAltaCliente.aspx");
+        }
     }
 }
+
+
+
+

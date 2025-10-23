@@ -9,7 +9,6 @@
     </div>
 
     <div class="row row-cols-md-3 g-4">
-
         <%
             foreach (dominio.Articulo articulo in ListaArticulo)
             {
