@@ -25,7 +25,7 @@ namespace GestionBicicleteria
                     Session["articulo"] = articulo;
                 }
                 else
-                    Response.Redirect("gestionComercialFrond.aspx");
+                    Response.Redirect("GaleriaArticulos.aspx");
             }
             else
                 articulo = (Articulo)Session["articulo"];
@@ -33,7 +33,7 @@ namespace GestionBicicleteria
 
         protected void btnVolver_Click(object sender, EventArgs e)
         {
-            Response.Redirect("gestionComercialFrond.aspx");
+            Response.Redirect("GaleriaArticulos.aspx");
         }
     }
 }

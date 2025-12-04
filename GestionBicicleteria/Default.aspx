@@ -90,7 +90,7 @@
                 <div class="col-5 align-content-end">
                     <asp:Panel ID="pnlCargaCliente" Visible="false" CssClass="border p-3 mt-3" runat="server">
                         <div class="row">
-                            <h4>Datos</h4>
+                            <h4>Formulario de venta</h4>
 
 
                             <%if (cargaCliente)
@@ -106,7 +106,7 @@
                                     <asp:TextBox ID="txtCuit" CssClass="form-control" runat="server"></asp:TextBox>
 
                                     <asp:Button ID="btnTodosClientes" OnClick="btnTodosClientes_Click" runat="server" Text="👤" CssClass="btn btn-outline-primary mt-2" ToolTip="Lista clientes" />
-                                    <asp:Button ID="btnAgregarCliente" OnClick="btnAgregarCliente_Click" runat="server" Text="➕" CssClass="btn btn-outline-primary mt-2" ToolTip="Agregar cliente"/>
+                                    <asp:Button ID="btnAgregarCliente" OnClick="btnAgregarCliente_Click" runat="server" Text="➕" CssClass="btn btn-outline-primary mt-2" ToolTip="Agregar cliente" />
 
                                 </div>
                             </div>
@@ -131,9 +131,28 @@
             <div class="row">
                 <div class="col-7 mb-2">
                     <asp:Button ID="btnCrearPresupuesto" CssClass="btn btn-success" OnClick="btnCrearPresupuesto_Click" runat="server" Text="📝 Crear Presupuesto" />
-                    <asp:Button ID="btnCargaCliente" CssClass="btn btn-primary" runat="server" Text="👤 Cargar cliente" OnClick="btnCargaCliente_Click" />
-                    <asp:Button ID="btnLimpiarPresupuesto" OnClick="btnLimpiarPresupuesto_Click" CssClass="btn btn-primary" runat="server" Text="Limpiar formulario" />
+                    <asp:Button ID="btnCargaCliente" CssClass="btn btn-primary" Visible="false" runat="server" Text="👤 Cargar cliente" OnClick="btnCargaCliente_Click" />
+                    <asp:Button ID="btnLimpiarPresupuesto" OnClick="btnLimpiarPresupuesto_Click" Visible="false" CssClass="btn btn-primary" runat="server" Text="Limpiar formulario" />
+                    <asp:Button ID="btnConfirmarPresupuesto" runat="server" Visible="false" CssClass="btn btn-success" Text="Confirmar presupuesto" OnClick="btnConfirmarPresupuesto_Click"/>
+                </div>
+            </div>
 
+
+            <div class="modal" tabindex="-1" id="modalConfirmarElim">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" runat="server" id="titleModal" title=""></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <asp:Label ID="lblMensajeModal" runat="server" Text=""></asp:Label>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="btnCancelar" runat="server" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <asp:Button ID="btnAceptar" CssClass="btn btn-primary" data-bs-dismiss="modal" OnClick="btnAceptar_Click" runat="server" Text="Aceptar" />                            
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -151,7 +170,7 @@
                             <asp:BoundField HeaderText="Precio" DataField="Precio" />
                             <asp:BoundField HeaderText="Categoria" DataField="Categoria" />
 
-                            <asp:TemplateField HeaderText="" Visible="false">
+                            <asp:TemplateField HeaderText="Agregar/Quitar" Visible="false">
                                 <ItemTemplate>
 
                                     <div class="d-flex gap-2 align-items-center">
@@ -249,6 +268,13 @@
         </div>
     </div>
 
+    <%-- funcion en JS que abre un modal de confirmacion --%>
+    <script>
+        function abrirModal() {
+            var myModal = new bootstrap.Modal(document.getElementById('modalConfirmarElim'));
+            myModal.show();
+        }
+    </script>
 
 
     <script>
@@ -263,5 +289,7 @@
             }
         }
     </script>
+ 
+
 
 </asp:Content>

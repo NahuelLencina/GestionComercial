@@ -38,30 +38,72 @@ namespace GestionBicicleteria
                     ddlCambiarFilas.SelectedValue = dgvArticulos.PageSize.ToString();
                 }
                 CargarGridview();
+                ActualizarVistaPresupuesto();
+                ActualizarVistaPanelCliente();
+            }
+        }
 
-                if (Session["presupuesto"] != null)
+        private void ActualizarVistaPanelCliente()
+        {
+           var cliente = Session["clienteSeleccionado"] as Cliente;
+     
+
+            if (cliente != null)
+            {
+                // Asignamos los datos
+                txtNombreCliente.Text = cliente.Nombre;
+                txtCuit.Text = cliente.Cuit;
+                txtDireccion.Text = cliente.Direccion;
+                txtMail.Text = cliente.Email;
+
+                //cargaCliente = !cargaCliente;
+                // Mostrar u ocultar el panel según el estado actual
+                pnlCargaCliente.Visible = cargaCliente;
+
+                // Cambiar el texto del botón
+                btnCargaCliente.Text = cargaCliente ? "Ocultar Datos" : "Datos Cliente";
+
+            }  
+        }
+
+        // Revisa el grid presupuesto, si no tiene un item cargado lo borra
+        private void ActualizarVistaPresupuesto()
+        {
+            var presupuesto = Session["presupuesto"] as List<Articulo>;
+
+            if (presupuesto != null && presupuesto.Any())
+            {
+                // Cambia el tamaño del gridView
+                pnlArticulos.CssClass = "col-md-7";
+                dgvArticulos.Columns[4].Visible = true; // Muestra los botones +/-
+                btnCargaCliente.Visible = true;
+                btnLimpiarPresupuesto.Visible = true;
+                // Muestro el GripView presupuesto
+                pnlPresupuesto.Visible = true;
+                titlePresupuesto.Visible = true;
+
+                //pnlCargaCliente.Visible = true;
+
+
+                if (presupuesto.Count > 0)
                 {
-                    // Cambia el tamaño del gridView
-                    dgvArticulos.Visible = true;
-                    pnlArticulos.CssClass = "col-md-7";
-
-                    // Muestro el GripView presupuesto
-                    pnlPresupuesto.Visible = true;
-                    titlePresupuesto.Visible = true;
-
-                    dgvPresupuesto.DataSource = (List<Articulo>)Session["presupuesto"];
-                    dgvPresupuesto.DataBind();
+                    btnConfirmarPresupuesto.Visible = true;
                 }
-               
-                else
-                {
-                    pnlPresupuesto.Visible = false;
-                    titlePresupuesto.Visible = false;
-                    pnlArticulos.CssClass = "col-12";
-                }
+              
+                dgvPresupuesto.DataSource = (List<Articulo>)Session["presupuesto"];
+                dgvPresupuesto.DataBind();
+            }
+
+            else
+            {
+                pnlPresupuesto.Visible = false;
+                titlePresupuesto.Visible = false;
+                pnlArticulos.CssClass = "col-12";
+                dgvArticulos.Columns[4].Visible = false; // oculta los botones +/-
             }
 
         }
+
 
         private void CargarGridview(List<Articulo> lista = null)
         {
@@ -139,12 +181,11 @@ namespace GestionBicicleteria
             // Cambia el tamaño del gridView
             dgvArticulos.Columns[4].Visible = true;
             pnlArticulos.CssClass = "col-md-7";
-
+            btnCargaCliente.Visible = true;
+            btnLimpiarPresupuesto.Visible = true;
             // Muestro el GripView presupuesto
             pnlPresupuesto.Visible = true;
             titlePresupuesto.Visible = true;
-
-
 
             if (Session["presupuesto"] == null)
                 Session["presupuesto"] = new List<Articulo>();
@@ -170,7 +211,6 @@ namespace GestionBicicleteria
             var presupuesto = (List<Articulo>)Session["presupuesto"] ?? new List<Articulo>();
 
 
-
             // si hay un articulo seleccionado sumo o agrego
             if (articuloSeleccionado != null)
             {
@@ -180,6 +220,8 @@ namespace GestionBicicleteria
                 // Logica de botones
                 if (e.CommandName == "sumar")
                 {
+                    btnConfirmarPresupuesto.Visible = true;
+
                     if (enPresupuesto == null)
                     {
                         var nuevoArticulo = new Articulo
@@ -201,6 +243,9 @@ namespace GestionBicicleteria
                     enPresupuesto.Cantidad--;
                     if (enPresupuesto.Cantidad <= 0)
                         presupuesto.Remove(enPresupuesto);
+                    if (presupuesto.Count <= 0)
+                        btnConfirmarPresupuesto.Visible = false;
+
                 }
             }
             // Si no hay articulo seleccionado salgo
@@ -243,11 +288,19 @@ namespace GestionBicicleteria
 
         }
 
+        //protected bool cargaCliente
+        //{
+        //    get { return ViewState["formularioCliente"] != null && (bool)ViewState["formularioCliente"]; }
+        //    set { ViewState["formularioCliente"] = value; }
+        //}
+
+
         protected bool cargaCliente
         {
-            get { return ViewState["formularioCliente"] != null && (bool)ViewState["formularioCliente"]; }
-            set { ViewState["formularioCliente"] = value; }
+            get { return Session["cargaCliente"] != null && (bool)Session["cargaCliente"]; }
+            set { Session["cargaCliente"] = value; }
         }
+
 
         protected void btnCargaCliente_Click(object sender, EventArgs e)
         {
@@ -258,8 +311,16 @@ namespace GestionBicicleteria
                 // Mostrar u ocultar el panel según el estado actual
                 pnlCargaCliente.Visible = cargaCliente;
                 Session["listaClientes"] = negocio.storeListarClientes();
+
+                btnCargaCliente.CssClass = "btn btn-primary";
                 // Cambiar el texto del botón
-                btnCargaCliente.Text = cargaCliente ? "Ocultar datos" : "Datos Cliente";
+
+
+                if (Session["clienteSeleccionado"] != null)
+                    btnCargaCliente.Text = cargaCliente ? "Ocultar datos" : "Datos Cliente";
+                else
+                    btnCargaCliente.Text = cargaCliente ? "Ocultar datos" : "👤 Cargar cliente";
+             
             }
             catch (Exception ex)
             {
@@ -287,16 +348,60 @@ namespace GestionBicicleteria
 
             if (enPresupuesto != null && enPresupuesto.Count > 0)
             {
+                titleModal.InnerText = "Confirmar Acción";
+                lblMensajeModal.Text = "Desea eliminar el presupuesto?";
+                btnAceptar.Visible = true;
+                btnCancelar.Visible = true;
+                // Ejecuta JavaScript para abrir el modal
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "abrirModal", "abrirModal();", true);
+                
+            }
+
+        }
+
+
+        // Metodo para limpiar los Campos del panel de datos del cliente
+        private void limpiarPanelCliente()
+        {
+            if (!string.IsNullOrWhiteSpace(txtNombreCliente.Text))
+                txtNombreCliente.Text = null;
+            if (!string.IsNullOrWhiteSpace(txtCuit.Text))
+                txtCuit.Text = null;
+            if (!string.IsNullOrWhiteSpace(txtDireccion.Text))
+                txtDireccion.Text = null;
+            if (!string.IsNullOrWhiteSpace(txtMail.Text))
+                txtMail.Text = null;
+        }
+
+        protected void btnAceptar_Click(object sender, EventArgs e)
+        {
+            // este metodo se ejecuta cuando el usuario hace click en aceptar
+            var enPresupuesto = Session["presupuesto"] as List<Articulo>;
+
+            if (enPresupuesto != null)
+            {
+                //Borramos el presupuesto
                 enPresupuesto.Clear();
                 Session.Remove("presupuesto");
 
+                if (Session["clienteSeleccionado"] != null)
+                {
+                    //Borramos El cliente seleccionado
+                    Session.Remove("clienteSeleccionado");
+                    Session.Remove("cargaCliente");
+
+                    cargaCliente = cargaCliente;
+                    // Mostrar u ocultar el panel según el estado actual
+                    pnlCargaCliente.Visible = cargaCliente;
+                    btnCargaCliente.Text = !cargaCliente ? "👤 Cargar cliente" : "Ocultar Datos";
+                    limpiarPanelCliente();
+                }
+                
+
+                btnConfirmarPresupuesto.Visible = false;
                 //Refrescamos el GridView
                 dgvPresupuesto.DataSource = null;
                 dgvPresupuesto.DataBind();
-            }
-            else
-            {
-                //Cartel Ya esta vacio
             }
         }
 
@@ -337,6 +442,8 @@ namespace GestionBicicleteria
             txtDireccion.Text = cliente.Direccion;
             txtMail.Text = cliente.Email;
 
+            Session["clienteSeleccionado"] = cliente;
+
             // Cerramos el offcanvas
             ScriptManager.RegisterStartupScript(this, this.GetType(), "cerrarOffcanvas",
                 "var offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('offcanvasRight')); if(offcanvas) offcanvas.hide();", true);
@@ -362,9 +469,18 @@ namespace GestionBicicleteria
         {
             Response.Redirect("FormularioAltaCliente.aspx");
         }
+
+        protected void btnConfirmarPresupuesto_Click(object sender, EventArgs e)
+        {
+          
+                if (string.IsNullOrWhiteSpace(txtNombreCliente.Text))
+                {
+                    titleModal.InnerText = "Atención";
+                    lblMensajeModal.Text="Falta seleccionar un cliente";
+                    ScriptManager.RegisterStartupScript(this, GetType(), "abrirModal", "abrirModal();",true);
+                    btnAceptar.Visible = false;
+                    btnCancelar.Visible = false;
+                }
+        }
     }
 }
-
-
-
-

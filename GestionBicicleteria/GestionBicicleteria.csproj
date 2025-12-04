@@ -74,7 +74,7 @@
     <Content Include="FormularioAltaCliente.aspx" />
     <Content Include="FormularioArticulo.aspx" />
     <Content Include="FormularioVenta.aspx" />
-    <Content Include="gestionComercialFrond.aspx" />
+    <Content Include="GaleriaArticulos.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
     <Content Include="MiPerfil.aspx" />
@@ -124,12 +124,12 @@
     <Compile Include="FormularioVenta.aspx.designer.cs">
       <DependentUpon>FormularioVenta.aspx</DependentUpon>
     </Compile>
-    <Compile Include="gestionComercialFrond.aspx.cs">
-      <DependentUpon>gestionComercialFrond.aspx</DependentUpon>
+    <Compile Include="GaleriaArticulos.aspx.cs">
+      <DependentUpon>GaleriaArticulos.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="gestionComercialFrond.aspx.designer.cs">
-      <DependentUpon>gestionComercialFrond.aspx</DependentUpon>
+    <Compile Include="GaleriaArticulos.aspx.designer.cs">
+      <DependentUpon>GaleriaArticulos.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
