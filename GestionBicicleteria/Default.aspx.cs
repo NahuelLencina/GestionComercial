@@ -62,8 +62,8 @@ namespace GestionBicicleteria
 
                 // Cambiar el texto del botón
                 btnCargaCliente.Text = cargaCliente ? "Ocultar Datos" : "Datos Cliente";
-
-            }  
+            } 
+            
         }
 
         // Revisa el grid presupuesto, si no tiene un item cargado lo borra
@@ -96,6 +96,19 @@ namespace GestionBicicleteria
 
             else
             {
+                if (Session["clienteSeleccionado"] != null)
+                {
+                    //Borramos El cliente seleccionado
+                    Session.Remove("clienteSeleccionado");
+                    Session.Remove("cargaCliente");
+
+                    cargaCliente = cargaCliente;
+                    // Mostrar u ocultar el panel según el estado actual
+                    pnlCargaCliente.Visible = cargaCliente;
+                    btnCargaCliente.Text = !cargaCliente ? "👤 Cargar cliente" : "Ocultar Datos";
+                    limpiarPanelCliente();
+                }
+
                 pnlPresupuesto.Visible = false;
                 titlePresupuesto.Visible = false;
                 pnlArticulos.CssClass = "col-12";
@@ -472,7 +485,10 @@ namespace GestionBicicleteria
 
         protected void btnConfirmarPresupuesto_Click(object sender, EventArgs e)
         {
-          
+            VentaNegocio negocio = new VentaNegocio();
+            Venta nueva = new Venta();
+           
+
                 if (string.IsNullOrWhiteSpace(txtNombreCliente.Text))
                 {
                     titleModal.InnerText = "Atención";
@@ -481,6 +497,19 @@ namespace GestionBicicleteria
                     btnAceptar.Visible = false;
                     btnCancelar.Visible = false;
                 }
+
+                negocio.agregarVenta(nueva);
+                
+        }
+
+        protected void btnLimpiarCampor_Click(object sender, EventArgs e)
+        {
+            if (Session["clienteSeleccionado"] != null)
+            {
+                //Borramos El cliente seleccionado
+                Session.Remove("clienteSeleccionado");
+                limpiarPanelCliente();
+            }
         }
     }
 }

@@ -177,6 +177,15 @@ namespace GestionBicicleteria
         protected global::System.Web.UI.WebControls.Button btnAgregarCliente;
 
         /// <summary>
+        /// Control btnLimpiarCampor.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnLimpiarCampor;
+
+        /// <summary>
         /// Control lblDireccion.
         /// </summary>
         /// <remarks>

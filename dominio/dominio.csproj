@@ -45,10 +45,11 @@
     <Compile Include="Categoria.cs" />
     <Compile Include="Cliente.cs" />
     <Compile Include="Elemento.cs" />
-    <Compile Include="Pokemon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proveedor.cs" />
     <Compile Include="Trainee.cs" />
+    <Compile Include="Venta.cs" />
+    <Compile Include="VentaItem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

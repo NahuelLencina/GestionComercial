@@ -107,8 +107,9 @@
 
                                     <asp:Button ID="btnTodosClientes" OnClick="btnTodosClientes_Click" runat="server" Text="👤" CssClass="btn btn-outline-primary mt-2" ToolTip="Lista clientes" />
                                     <asp:Button ID="btnAgregarCliente" OnClick="btnAgregarCliente_Click" runat="server" Text="➕" CssClass="btn btn-outline-primary mt-2" ToolTip="Agregar cliente" />
-
-                                </div>
+                                    <asp:Button ID="btnLimpiarCampor"  OnClick="btnLimpiarCampor_Click" runat="server" Text="❌" CssClass="btn btn-outline-primary mt-2" ToolTip="Limpiar campos" />
+                              
+                                 </div>
                             </div>
                             <div class="col-6">
                                 <asp:Label ID="lblDireccion" runat="server" Text="Dirección"></asp:Label>
