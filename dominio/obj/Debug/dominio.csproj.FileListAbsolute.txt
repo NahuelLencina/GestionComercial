@@ -1,6 +1,0 @@
-C:\Users\Nahuel Lencina\Desktop\GestionComercial\dominio\bin\Debug\dominio.dll
-C:\Users\Nahuel Lencina\Desktop\GestionComercial\dominio\bin\Debug\dominio.pdb
-C:\Users\Nahuel Lencina\Desktop\GestionComercial\dominio\obj\Debug\dominio.csproj.AssemblyReference.cache
-C:\Users\Nahuel Lencina\Desktop\GestionComercial\dominio\obj\Debug\dominio.csproj.CoreCompileInputs.cache
-C:\Users\Nahuel Lencina\Desktop\GestionComercial\dominio\obj\Debug\dominio.dll
-C:\Users\Nahuel Lencina\Desktop\GestionComercial\dominio\obj\Debug\dominio.pdb

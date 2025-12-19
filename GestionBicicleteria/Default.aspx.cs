@@ -45,8 +45,8 @@ namespace GestionBicicleteria
 
         private void ActualizarVistaPanelCliente()
         {
-           var cliente = Session["clienteSeleccionado"] as Cliente;
-     
+            var cliente = Session["clienteSeleccionado"] as Cliente;
+
 
             if (cliente != null)
             {
@@ -62,8 +62,8 @@ namespace GestionBicicleteria
 
                 // Cambiar el texto del botón
                 btnCargaCliente.Text = cargaCliente ? "Ocultar Datos" : "Datos Cliente";
-            } 
-            
+            }
+
         }
 
         // Revisa el grid presupuesto, si no tiene un item cargado lo borra
@@ -89,7 +89,7 @@ namespace GestionBicicleteria
                 {
                     btnConfirmarPresupuesto.Visible = true;
                 }
-              
+
                 dgvPresupuesto.DataSource = (List<Articulo>)Session["presupuesto"];
                 dgvPresupuesto.DataBind();
             }
@@ -333,7 +333,7 @@ namespace GestionBicicleteria
                     btnCargaCliente.Text = cargaCliente ? "Ocultar datos" : "Datos Cliente";
                 else
                     btnCargaCliente.Text = cargaCliente ? "Ocultar datos" : "👤 Cargar cliente";
-             
+
             }
             catch (Exception ex)
             {
@@ -367,7 +367,7 @@ namespace GestionBicicleteria
                 btnCancelar.Visible = true;
                 // Ejecuta JavaScript para abrir el modal
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "abrirModal", "abrirModal();", true);
-                
+
             }
 
         }
@@ -386,9 +386,10 @@ namespace GestionBicicleteria
                 txtMail.Text = null;
         }
 
+
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            // este metodo se ejecuta cuando el usuario hace click en aceptar
+
             var enPresupuesto = Session["presupuesto"] as List<Articulo>;
 
             if (enPresupuesto != null)
@@ -409,7 +410,7 @@ namespace GestionBicicleteria
                     btnCargaCliente.Text = !cargaCliente ? "👤 Cargar cliente" : "Ocultar Datos";
                     limpiarPanelCliente();
                 }
-                
+
 
                 btnConfirmarPresupuesto.Visible = false;
                 //Refrescamos el GridView
@@ -487,19 +488,38 @@ namespace GestionBicicleteria
         {
             VentaNegocio negocio = new VentaNegocio();
             Venta nueva = new Venta();
-           
 
-                if (string.IsNullOrWhiteSpace(txtNombreCliente.Text))
-                {
-                    titleModal.InnerText = "Atención";
-                    lblMensajeModal.Text="Falta seleccionar un cliente";
-                    ScriptManager.RegisterStartupScript(this, GetType(), "abrirModal", "abrirModal();",true);
-                    btnAceptar.Visible = false;
-                    btnCancelar.Visible = false;
-                }
 
-                negocio.agregarVenta(nueva);
-                
+            if (string.IsNullOrWhiteSpace(txtNombreCliente.Text))
+            {
+                titleModal.InnerText = "Atención";
+                lblMensajeModal.Text = "Falta seleccionar un cliente";
+                ScriptManager.RegisterStartupScript(this, GetType(), "abrirModal", "abrirModal();", true);
+                btnAceptar.Visible = false;
+                btnCancelar.Visible = false;
+            }
+            
+            
+            var enPresupuesto = Session["presupuesto"] as List<Articulo>;
+
+            
+
+            if (enPresupuesto != null && Session["clienteSeleccionado"] != null)
+            {
+                Cliente cliente = Session["IdClienteSeleccionado"] as Cliente; 
+              
+                Trainee usuarioLog = (Trainee)Session["trainee"];
+                int UsuarioLog = usuarioLog.Id;
+
+                double Total = enPresupuesto.Sum(a => a.Precio);
+                nueva.Total = Total;
+
+                nueva.Fecha = DateTime.Now;
+
+                // 🔹 Guardar la venta en BD
+                negocio.agregarVenta(nueva);             
+            }
+
         }
 
         protected void btnLimpiarCampor_Click(object sender, EventArgs e)

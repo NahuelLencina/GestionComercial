@@ -107,7 +107,7 @@
 
                                     <asp:Button ID="btnTodosClientes" OnClick="btnTodosClientes_Click" runat="server" Text="👤" CssClass="btn btn-outline-primary mt-2" ToolTip="Lista clientes" />
                                     <asp:Button ID="btnAgregarCliente" OnClick="btnAgregarCliente_Click" runat="server" Text="➕" CssClass="btn btn-outline-primary mt-2" ToolTip="Agregar cliente" />
-                                    <asp:Button ID="btnLimpiarCampor"  OnClick="btnLimpiarCampor_Click" runat="server" Text="❌" CssClass="btn btn-outline-primary mt-2" ToolTip="Limpiar campos" />
+                                    <asp:Button ID="btnLimpiarCampor"  OnClick="btnLimpiarCampor_Click" runat="server" Text="🧹" CssClass="btn btn-outline-primary mt-2" ToolTip="Limpiar campos" />
                               
                                  </div>
                             </div>
@@ -133,7 +133,7 @@
                 <div class="col-7 mb-2">
                     <asp:Button ID="btnCrearPresupuesto" CssClass="btn btn-success" OnClick="btnCrearPresupuesto_Click" runat="server" Text="📝 Crear Presupuesto" />
                     <asp:Button ID="btnCargaCliente" CssClass="btn btn-primary" Visible="false" runat="server" Text="👤 Cargar cliente" OnClick="btnCargaCliente_Click" />
-                    <asp:Button ID="btnLimpiarPresupuesto" OnClick="btnLimpiarPresupuesto_Click" Visible="false" CssClass="btn btn-primary" runat="server" Text="Limpiar formulario" />
+                    <asp:Button ID="btnLimpiarPresupuesto" OnClick="btnLimpiarPresupuesto_Click" Visible="false" CssClass="btn btn-primary" runat="server" Text="🧹 Limpiar formulario" />
                     <asp:Button ID="btnConfirmarPresupuesto" runat="server" Visible="false" CssClass="btn btn-success" Text="Confirmar presupuesto" OnClick="btnConfirmarPresupuesto_Click"/>
                 </div>
             </div>

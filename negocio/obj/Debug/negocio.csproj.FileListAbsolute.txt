@@ -1,9 +1,0 @@
-C:\Users\Nahuel Lencina\Desktop\GestionComercial\negocio\bin\Debug\negocio.dll
-C:\Users\Nahuel Lencina\Desktop\GestionComercial\negocio\bin\Debug\negocio.pdb
-C:\Users\Nahuel Lencina\Desktop\GestionComercial\negocio\bin\Debug\dominio.dll
-C:\Users\Nahuel Lencina\Desktop\GestionComercial\negocio\bin\Debug\dominio.pdb
-C:\Users\Nahuel Lencina\Desktop\GestionComercial\negocio\obj\Debug\negocio.csproj.AssemblyReference.cache
-C:\Users\Nahuel Lencina\Desktop\GestionComercial\negocio\obj\Debug\negocio.csproj.CoreCompileInputs.cache
-C:\Users\Nahuel Lencina\Desktop\GestionComercial\negocio\obj\Debug\negocio.csproj.CopyComplete
-C:\Users\Nahuel Lencina\Desktop\GestionComercial\negocio\obj\Debug\negocio.dll
-C:\Users\Nahuel Lencina\Desktop\GestionComercial\negocio\obj\Debug\negocio.pdb
