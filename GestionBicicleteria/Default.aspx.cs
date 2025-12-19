@@ -301,11 +301,6 @@ namespace GestionBicicleteria
 
         }
 
-        //protected bool cargaCliente
-        //{
-        //    get { return ViewState["formularioCliente"] != null && (bool)ViewState["formularioCliente"]; }
-        //    set { ViewState["formularioCliente"] = value; }
-        //}
 
 
         protected bool cargaCliente
@@ -486,39 +481,33 @@ namespace GestionBicicleteria
 
         protected void btnConfirmarPresupuesto_Click(object sender, EventArgs e)
         {
-            VentaNegocio negocio = new VentaNegocio();
-            Venta nueva = new Venta();
 
-
-            if (string.IsNullOrWhiteSpace(txtNombreCliente.Text))
+            if (Session["clienteSeleccionado"] == null || string.IsNullOrWhiteSpace(txtNombreCliente.Text))
             {
                 titleModal.InnerText = "Atención";
                 lblMensajeModal.Text = "Falta seleccionar un cliente";
                 ScriptManager.RegisterStartupScript(this, GetType(), "abrirModal", "abrirModal();", true);
                 btnAceptar.Visible = false;
                 btnCancelar.Visible = false;
+                return;
             }
-            
-            
+
+            Cliente cliente = (Cliente)Session["clienteSeleccionado"];
+            Trainee usuarioLog = (Trainee)Session["trainee"];
+
             var enPresupuesto = Session["presupuesto"] as List<Articulo>;
+            if (enPresupuesto == null || enPresupuesto.Count == 0)
+                return;
 
-            
+            VentaNegocio negocio = new VentaNegocio();
+            Venta nueva = new Venta();
 
-            if (enPresupuesto != null && Session["clienteSeleccionado"] != null)
-            {
-                Cliente cliente = Session["IdClienteSeleccionado"] as Cliente; 
-              
-                Trainee usuarioLog = (Trainee)Session["trainee"];
-                int UsuarioLog = usuarioLog.Id;
-
-                double Total = enPresupuesto.Sum(a => a.Precio);
-                nueva.Total = Total;
-
-                nueva.Fecha = DateTime.Now;
-
+            nueva.IdCliente = cliente.Id;
+                nueva.IdUsuario = usuarioLog.Id;
+                nueva.Total = enPresupuesto.Sum(a => a.Precio);
+             
                 // 🔹 Guardar la venta en BD
                 negocio.agregarVenta(nueva);             
-            }
 
         }
 

@@ -18,7 +18,7 @@ namespace negocio
             {
                 datos.setearProcedimiento("AgregarVenta_SP");
 
-                datos.setearParametro("@IDCliente", nueva.IdCliente);               
+                datos.setearParametro("@IDCliente", nueva.IdCliente);  
                 datos.setearParametro("@Total",nueva.Total);
                 datos.setearParametro("@IdUsuario", nueva.IdUsuario);
              
