@@ -496,6 +496,7 @@ namespace GestionBicicleteria
             Trainee usuarioLog = (Trainee)Session["trainee"];
 
             var enPresupuesto = Session["presupuesto"] as List<Articulo>;
+
             if (enPresupuesto == null || enPresupuesto.Count == 0)
                 return;
 
@@ -503,11 +504,27 @@ namespace GestionBicicleteria
             Venta nueva = new Venta();
 
             nueva.IdCliente = cliente.Id;
-                nueva.IdUsuario = usuarioLog.Id;
-                nueva.Total = enPresupuesto.Sum(a => a.Precio);
-             
-                // 🔹 Guardar la venta en BD
-                negocio.agregarVenta(nueva);             
+            nueva.IdUsuario = usuarioLog.Id;
+            nueva.Total = enPresupuesto.Sum(a => a.Precio);
+
+            // 🔹 Guardar la venta en BD
+            int idVenta = negocio.agregarVenta(nueva);
+
+            VentaItemNegocio itemNegocio = new VentaItemNegocio();
+
+            foreach (Articulo art in enPresupuesto)
+            {
+                VentaItem item = new VentaItem();
+                item.IdVenta = idVenta;
+                item.IdProducto = art.Id;
+                item.Cantidad = art.Cantidad;   
+                item.PrecioUnitario = art.Precio;
+                item.PrecioTotal = art.Precio * art.Cantidad;
+
+                itemNegocio.agregarVentaItem(item); 
+            }
+
+
 
         }
 

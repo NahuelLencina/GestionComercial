@@ -10,31 +10,30 @@ namespace negocio
 {
     public class VentaNegocio
     {
-        public void agregarVenta( Venta nueva)
+        public int agregarVenta(Venta nueva)
         {
-           
+
             AccesoDatos datos = new AccesoDatos();
             try
             {
                 datos.setearProcedimiento("AgregarVenta_SP");
 
-                datos.setearParametro("@IDCliente", nueva.IdCliente);  
-                datos.setearParametro("@Total",nueva.Total);
+                datos.setearParametro("@IDCliente", nueva.IdCliente);
+                datos.setearParametro("@Total", nueva.Total);
                 datos.setearParametro("@IdUsuario", nueva.IdUsuario);
-             
-                datos.ejecutarAccion();
+
+                int idVenta = datos.ejecutarAccionScalar();
+
+                return idVenta;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            finally 
+            finally
             {
                 datos.cerrarConexion();
             }
-
-
-
         }
 
     }
