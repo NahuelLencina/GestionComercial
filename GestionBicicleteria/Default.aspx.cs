@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI;
 using System.Web.Services;
 using System.Web.Script.Serialization;
+using Microsoft.Win32;
 
 
 namespace GestionBicicleteria
@@ -82,12 +83,12 @@ namespace GestionBicicleteria
                 pnlPresupuesto.Visible = true;
                 titlePresupuesto.Visible = true;
 
-                //pnlCargaCliente.Visible = true;
-
 
                 if (presupuesto.Count > 0)
                 {
                     btnConfirmarPresupuesto.Visible = true;
+                    lblTotalApagar.Visible = true;
+                    actualizarTotalApagar();
                 }
 
                 dgvPresupuesto.DataSource = (List<Articulo>)Session["presupuesto"];
@@ -117,6 +118,23 @@ namespace GestionBicicleteria
 
         }
 
+        public void actualizarTotalApagar()
+        {
+            var presupuesto = Session["presupuesto"] as List<Articulo>;
+
+            if (presupuesto!=null && presupuesto.Count>0) 
+            {
+                double totalPagar = presupuesto.Sum(a => a.Cantidad * a.Precio);
+                lblTotalApagar.Text = $"Total a pagar: ${totalPagar}";
+                Session["presupuesto"] = presupuesto;
+            }
+            else
+            {   
+                lblTotalApagar.Text = string.Empty;
+                lblTotalApagar.Visible = false;
+            }
+
+        }
 
         private void CargarGridview(List<Articulo> lista = null)
         {
@@ -161,7 +179,6 @@ namespace GestionBicicleteria
         {
 
         }
-
 
         protected void ddlCambiarFilas_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -223,7 +240,6 @@ namespace GestionBicicleteria
             // Obtengo la lista de presupuesto o la creo 
             var presupuesto = (List<Articulo>)Session["presupuesto"] ?? new List<Articulo>();
 
-
             // si hay un articulo seleccionado sumo o agrego
             if (articuloSeleccionado != null)
             {
@@ -234,6 +250,8 @@ namespace GestionBicicleteria
                 if (e.CommandName == "sumar")
                 {
                     btnConfirmarPresupuesto.Visible = true;
+                    lblTotalApagar.Visible = true;
+                    
 
                     if (enPresupuesto == null)
                     {
@@ -257,8 +275,10 @@ namespace GestionBicicleteria
                     if (enPresupuesto.Cantidad <= 0)
                         presupuesto.Remove(enPresupuesto);
                     if (presupuesto.Count <= 0)
+                    {
+                        lblTotalApagar.Visible = false;
                         btnConfirmarPresupuesto.Visible = false;
-
+                    }
                 }
             }
             // Si no hay articulo seleccionado salgo
@@ -269,6 +289,7 @@ namespace GestionBicicleteria
             Session["presupuesto"] = presupuesto;
             dgvPresupuesto.DataSource = presupuesto;
             dgvPresupuesto.DataBind();
+            actualizarTotalApagar();
         }
 
         protected void txtcantidad_TextChanged(object sender, EventArgs e)
@@ -301,14 +322,11 @@ namespace GestionBicicleteria
 
         }
 
-
-
         protected bool cargaCliente
         {
             get { return Session["cargaCliente"] != null && (bool)Session["cargaCliente"]; }
             set { Session["cargaCliente"] = value; }
         }
-
 
         protected void btnCargaCliente_Click(object sender, EventArgs e)
         {
@@ -367,7 +385,6 @@ namespace GestionBicicleteria
 
         }
 
-
         // Metodo para limpiar los Campos del panel de datos del cliente
         private void limpiarPanelCliente()
         {
@@ -380,7 +397,6 @@ namespace GestionBicicleteria
             if (!string.IsNullOrWhiteSpace(txtMail.Text))
                 txtMail.Text = null;
         }
-
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
@@ -406,8 +422,8 @@ namespace GestionBicicleteria
                     limpiarPanelCliente();
                 }
 
-
                 btnConfirmarPresupuesto.Visible = false;
+                actualizarTotalApagar();
                 //Refrescamos el GridView
                 dgvPresupuesto.DataSource = null;
                 dgvPresupuesto.DataBind();
@@ -505,12 +521,12 @@ namespace GestionBicicleteria
 
             nueva.IdCliente = cliente.Id;
             nueva.IdUsuario = usuarioLog.Id;
-            nueva.Total = enPresupuesto.Sum(a => a.Precio);
+            nueva.Total = enPresupuesto.Sum(a => a.Cantidad * a.Precio);
 
-            // 🔹 Guardar la venta en BD
-            int idVenta = negocio.agregarVenta(nueva);
 
             VentaItemNegocio itemNegocio = new VentaItemNegocio();
+            //  Guardar la venta en BD
+            int idVenta = negocio.agregarVenta(nueva);
 
             foreach (Articulo art in enPresupuesto)
             {
@@ -524,7 +540,30 @@ namespace GestionBicicleteria
                 itemNegocio.agregarVentaItem(item); 
             }
 
+            // Borramos los paneles Cliente y presupuesto.
+            limpiarPanelCliente();
+            enPresupuesto.Clear();
 
+            btnConfirmarPresupuesto.Visible = false;
+            btnCargaCliente.Visible = false;
+            btnLimpiarPresupuesto.Visible = false;
+            
+            ActualizarVistaPresupuesto();
+            ActualizarVistaPanelCliente();
+            actualizarTotalApagar();
+
+
+            titleModal.InnerText = "Confirmación";
+            lblMensajeModal.Text = "La venta se guardo correctamente...";
+            btnAceptar.Visible = false;
+            btnCancelar.Visible = false;
+
+
+            // Ejecuta JavaScript para abrir el modal
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "abrirModal", "abrirModal();", true);
+
+
+         //  Response.Redirect("Default.aspx"); 
 
         }
 

@@ -107,9 +107,9 @@
 
                                     <asp:Button ID="btnTodosClientes" OnClick="btnTodosClientes_Click" runat="server" Text="👤" CssClass="btn btn-outline-primary mt-2" ToolTip="Lista clientes" />
                                     <asp:Button ID="btnAgregarCliente" OnClick="btnAgregarCliente_Click" runat="server" Text="➕" CssClass="btn btn-outline-primary mt-2" ToolTip="Agregar cliente" />
-                                    <asp:Button ID="btnLimpiarCampor"  OnClick="btnLimpiarCampor_Click" runat="server" Text="🧹" CssClass="btn btn-outline-primary mt-2" ToolTip="Limpiar campos" />
-                              
-                                 </div>
+                                    <asp:Button ID="btnLimpiarCampor" OnClick="btnLimpiarCampor_Click" runat="server" Text="🧹" CssClass="btn btn-outline-primary mt-2" ToolTip="Limpiar campos" />
+
+                                </div>
                             </div>
                             <div class="col-6">
                                 <asp:Label ID="lblDireccion" runat="server" Text="Dirección"></asp:Label>
@@ -134,7 +134,7 @@
                     <asp:Button ID="btnCrearPresupuesto" CssClass="btn btn-success" OnClick="btnCrearPresupuesto_Click" runat="server" Text="📝 Crear Presupuesto" />
                     <asp:Button ID="btnCargaCliente" CssClass="btn btn-primary" Visible="false" runat="server" Text="👤 Cargar cliente" OnClick="btnCargaCliente_Click" />
                     <asp:Button ID="btnLimpiarPresupuesto" OnClick="btnLimpiarPresupuesto_Click" Visible="false" CssClass="btn btn-primary" runat="server" Text="🧹 Limpiar formulario" />
-                    <asp:Button ID="btnConfirmarPresupuesto" runat="server" Visible="false" CssClass="btn btn-success" Text="Confirmar presupuesto" OnClick="btnConfirmarPresupuesto_Click"/>
+                    <asp:Button ID="btnConfirmarPresupuesto" runat="server" Visible="false" CssClass="btn btn-success" Text="Confirmar presupuesto" OnClick="btnConfirmarPresupuesto_Click" />
                 </div>
             </div>
 
@@ -151,7 +151,7 @@
                         </div>
                         <div class="modal-footer">
                             <button id="btnCancelar" runat="server" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <asp:Button ID="btnAceptar" CssClass="btn btn-primary" data-bs-dismiss="modal" OnClick="btnAceptar_Click" runat="server" Text="Aceptar" />                            
+                            <asp:Button ID="btnAceptar" CssClass="btn btn-primary" data-bs-dismiss="modal" OnClick="btnAceptar_Click" runat="server" Text="Aceptar" />
                         </div>
                     </div>
                 </div>
@@ -230,6 +230,9 @@
                                 <asp:BoundField HeaderText="Total" DataField="Total" />
                             </Columns>
                         </asp:GridView>
+
+                        <asp:Label ID="lblTotalApagar" Visible="false" CssClass="d-flex justify-content-end fw-bold fb-success" runat="server" Text="Total a pagar: $ "></asp:Label>
+                    
                     </asp:Panel>
 
                 </div>
@@ -290,7 +293,7 @@
             }
         }
     </script>
- 
+
 
 
 </asp:Content>

@@ -73,9 +73,9 @@
     <Content Include="Estilos\StyleSheet.css" />
     <Content Include="FormularioAltaCliente.aspx" />
     <Content Include="FormularioArticulo.aspx" />
-    <Content Include="FormularioVenta.aspx" />
     <Content Include="GaleriaArticulos.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="ListadoVentas.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="MiPerfil.aspx" />
     <Content Include="Registro.aspx" />
@@ -117,13 +117,6 @@
     <Compile Include="FormularioArticulo.aspx.designer.cs">
       <DependentUpon>FormularioArticulo.aspx</DependentUpon>
     </Compile>
-    <Compile Include="FormularioVenta.aspx.cs">
-      <DependentUpon>FormularioVenta.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="FormularioVenta.aspx.designer.cs">
-      <DependentUpon>FormularioVenta.aspx</DependentUpon>
-    </Compile>
     <Compile Include="GaleriaArticulos.aspx.cs">
       <DependentUpon>GaleriaArticulos.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -133,6 +126,13 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="ListadoVentas.aspx.cs">
+      <DependentUpon>ListadoVentas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ListadoVentas.aspx.designer.cs">
+      <DependentUpon>ListadoVentas.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
