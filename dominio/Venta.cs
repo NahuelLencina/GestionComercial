@@ -13,5 +13,9 @@ namespace dominio
         public DateTime Fecha { get; set; }
         public double Total { get; set; }
         public int IdUsuario  { get; set; }
+
+        public string Nombre { get; set; }
+        public string Cuit { get; set; }
+
     }
 }

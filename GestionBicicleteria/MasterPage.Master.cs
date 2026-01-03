@@ -17,6 +17,7 @@ namespace GestionBicicleteria
 
                     navfavoritos.Visible = false;
                     navFormArticulos.Visible = false;
+                    navListadoVentas.Visible = false;
 
 
                     if (!(Page is Login || Page is Registro || Page is Default || Page is gestionComercialFrond || Page is Error || Page is DetalleArticulo))

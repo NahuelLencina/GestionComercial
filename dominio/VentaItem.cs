@@ -14,5 +14,6 @@ namespace dominio
         public double PrecioUnitario { get; set; }
         public int Cantidad { get; set; }
         public double PrecioTotal { get; set; }
+
     }
 }

@@ -10,8 +10,13 @@
         <asp:Panel ID="pnlVentas" CssClass="col-5" runat="server">
             <asp:GridView ID="dgvVentas" OnRowCommand="dgvVentas_RowCommand" runat="server" CssClass="table" DataKeyNames="Id" AutoGenerateColumns="false">
                 <Columns>
-                    <asp:BoundField HeaderText="Id" DataField="Id" />
-                    <asp:BoundField HeaderText="IdCliente" DataField="Cliente" />
+                 
+                   <%-- <asp:BoundField HeaderText="Cliente" DataField="IdCliente" />--%>
+                    <asp:BoundField HeaderText="Cuit" DataField="Cuit" />
+                    <asp:BoundField HeaderText="Nombre" DataField="Nombre" />
+                    <asp:BoundField HeaderText="Fecha" DataField="Fecha" /> 
+                    <asp:BoundField HeaderText="Total" DataField="Total" />
+
                 </Columns>
             </asp:GridView>
         </asp:Panel>

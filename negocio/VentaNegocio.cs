@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using negocio;
 using dominio;
 
 namespace negocio
@@ -43,24 +42,25 @@ namespace negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("select v.IdCLiente, c.Cliente, v.Fecha , v.Total from ventas v inner join clientes as c ON C.ID = V.IDCliente");
+               // datos.setearConsulta("select IdCliente ,Cliente, Fecha ,Total from ventas");
+
+                datos.setearConsulta("Select v.IdCliente, c.Cliente, c.Cuit, v.Fecha, v.Total From Ventas v Inner Join Clientes c on c.Id = v.Idcliente");
+
+
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
                     Venta venta = new Venta();
+                   
 
-                    venta.IdCliente = datos.Lector["IDCliente"] != DBNull.Value
-                        ? Convert.ToInt32(datos.Lector["IDCliente"])
-                        : 0;
+                    venta.IdCliente = (int)datos.Lector["IdCliente"];
+                    venta.Nombre = datos.Lector["Cliente"].ToString();
+                    venta.Fecha = (DateTime)datos.Lector["Fecha"];
+                    venta.Total = (double)datos.Lector["Total"];
+                    venta.Cuit = datos.Lector["Cuit"].ToString();
 
-                    venta.Fecha = datos.Lector["Fecha"] != DBNull.Value
-                        ? Convert.ToDateTime(datos.Lector["Fecha"])
-                        : DateTime.MinValue;
-
-                    venta.Total = datos.Lector["Total"] != DBNull.Value
-                        ? Convert.ToDouble(datos.Lector["Total"])
-                        : 0;
+                      
 
                     lista.Add(venta);
                 }

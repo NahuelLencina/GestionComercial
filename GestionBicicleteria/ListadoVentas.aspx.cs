@@ -16,12 +16,8 @@ namespace GestionBicicleteria
             if (!IsPostBack)
             {
                 VentaNegocio negocio = new VentaNegocio();
-
-                //dgvVentas.DataSource = negocio.listaVentas();
-                //dgvVentas.DataBind();
-
-                
-
+                dgvVentas.DataSource = negocio.listaVentas();
+                dgvVentas.DataBind();
             }
         }
 
