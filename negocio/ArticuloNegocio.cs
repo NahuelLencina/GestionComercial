@@ -129,16 +129,29 @@ namespace negocio
 
         }
 
-        public List<Articulo> filtrar(string nombre, string categoria, string proveedor)
+        public List<Articulo> listaFiltrada(string campo, string criterio, string filtro)
         {
             AccesoDatos datos = new AccesoDatos();
-            List<Articulo> lista = new List<Articulo>(); 
+            List<Articulo> lista = new List<Articulo>();
+
+           // string consulta = "select Prod.id, Prod.nombre, Prod.precio, Prod.IdProveedor, Prod.activo, Prod.Descripcion, Prod.idCategoria, Prove.id, Prove.nombre, prod.id, prod.nombre from productos Prod, categoria Cat, proveedor Prove where ":
 
             try
             {
-             
-                    
-                return lista;
+                if (campo == "nombre")
+                {
+                   
+                }
+                else if (campo == "Provedor")
+                {
+
+                }
+                else if (campo == "Categoria")
+                { 
+                
+                }
+
+                    return lista;
             }
             catch (Exception ex)
             {
@@ -150,6 +163,8 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+       
 
         public int agregarArticulo(Articulo art)
         {

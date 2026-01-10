@@ -13,6 +13,12 @@ namespace GestionBicicleteria
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!Seguridad.esAdmin(Session["trainee"]))
+            {
+                Session.Add("Error.aspx", "Se requiere permisos de administrador");
+                Response.Redirect("Login.aspx");
+            }
+
             if (!IsPostBack)
             {
                 VentaNegocio negocio = new VentaNegocio();
@@ -22,6 +28,11 @@ namespace GestionBicicleteria
         }
 
         protected void dgvVentas_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+
+        }
+
+        protected void txtFlitroRapVentas_TextChanged(object sender, EventArgs e)
         {
 
         }

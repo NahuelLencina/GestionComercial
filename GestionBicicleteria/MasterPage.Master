@@ -31,10 +31,10 @@
 
                     <div class="navbar-nav">
                         <asp:HyperLink CssClass="nav-link active" NavigateUrl="~/" Text="Lista de Articulos" runat="server" />
-                        <asp:HyperLink ID="navFormArticulos" CssClass="nav-link" NavigateUrl="~/Favoritos.aspx" Text="Favoritos" runat="server" /> 
                         <asp:HyperLink ID="navListadoVentas" CssClass="nav-link" NavigateUrl="~/ListadoVentas.aspx" Text="Lista De Ventas" runat="server" />
                         <asp:HyperLink CssClass="nav-link" NavigateUrl="~/EjemploEmail/EnvioEmail.aspx" Text="Envio E-mail" runat="server" />
-                        <asp:HyperLink ID="navfavoritos" CssClass="nav-link" NavigateUrl="~/Favoritos.aspx" Text="Favoritos" runat="server" />
+                        <asp:HyperLink ID="navFormArticulos" CssClass="nav-link" NavigateUrl="~/Favoritos.aspx" Text="Favoritos" runat="server" /> 
+                        <%--<asp:HyperLink ID="navfavoritos" CssClass="nav-link" NavigateUrl="~/Favoritos.aspx" Text="Favoritos" runat="server" />--%>
                         <asp:HyperLink CssClass="nav-link" NavigateUrl="~/MiPerfil.aspx" Text="Mi Perfil" runat="server" />
                     </div>
 

@@ -15,8 +15,8 @@ namespace GestionBicicleteria
                 if (!Seguridad.sessionActiva(Session["trainee"]))
                 {
 
-                    navfavoritos.Visible = false;
                     navFormArticulos.Visible = false;
+                    navListadoVentas.Visible = false;
                     navListadoVentas.Visible = false;
 
 
@@ -45,7 +45,11 @@ namespace GestionBicicleteria
                         navFormArticulos.Visible = true;
                     }
                     else
+                    {
                         navFormArticulos.Visible = false;
+                        navListadoVentas.Visible = false;
+                      
+                    }  
                 }
             }
         }

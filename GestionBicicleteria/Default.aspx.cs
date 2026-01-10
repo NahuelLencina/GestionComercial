@@ -1,15 +1,16 @@
-﻿using System;
+﻿using dominio;
+using Microsoft.Win32;
+using negocio;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using negocio;
-using dominio;
-using System.Web.UI.WebControls;
-using System.Web.UI;
-using System.Web.Services;
 using System.Web.Script.Serialization;
-using Microsoft.Win32;
+using System.Web.Services;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 
 namespace GestionBicicleteria
@@ -27,6 +28,7 @@ namespace GestionBicicleteria
             }
 
             FiltroAvanzado = chkAvanzado.Checked;
+
             if (!IsPostBack)
             {
                 ArticuloNegocio negocio = new ArticuloNegocio();
@@ -122,14 +124,14 @@ namespace GestionBicicleteria
         {
             var presupuesto = Session["presupuesto"] as List<Articulo>;
 
-            if (presupuesto!=null && presupuesto.Count>0) 
+            if (presupuesto != null && presupuesto.Count > 0)
             {
                 double totalPagar = presupuesto.Sum(a => a.Cantidad * a.Precio);
                 lblTotalApagar.Text = $"Total a pagar: ${totalPagar}";
                 Session["presupuesto"] = presupuesto;
             }
             else
-            {   
+            {
                 lblTotalApagar.Text = string.Empty;
                 lblTotalApagar.Visible = false;
             }
@@ -167,16 +169,97 @@ namespace GestionBicicleteria
 
         protected void chkAvanzado_CheckedChanged(object sender, EventArgs e)
         {
-
+            txtFiltroRapido.Text = null;
+            txtFiltroRapido.Enabled = !chkAvanzado.Checked;
         }
 
         protected void ddlCampo_SelectedIndexChanged(object sender, EventArgs e)
         {
+            txtFiltroAvanzado.Text = null;
+            // Filtro avanzado por Nombre
+            if (ddlCampo.SelectedValue == "Nombre")
+            {
+                ddlCriterio.Items.Clear();
+                ddlCriterio.Enabled = false;
+            }
+            else
+                ddlCriterio.Enabled = true;
 
+
+            // Filtro Avanzado por Proveedor
+            if (ddlCampo.SelectedValue == "Proveedor")
+            {
+                ProveedorNegocio negocio = new ProveedorNegocio();
+                ddlCriterio.DataSource = negocio.listarProveedores();
+                ddlCriterio.DataTextField = "Nombre";
+                ddlCriterio.DataValueField = "Id";
+                ddlCriterio.DataBind();
+            }
+          
+
+            // Filtro Avanzado por Categoria
+            if (ddlCampo.SelectedValue == "Categoria")
+            {
+                CategoriaNegocio negocio = new CategoriaNegocio();
+                ddlCriterio.DataSource = negocio.listarCategorias();
+                ddlCriterio.DataTextField = "Nombre";
+                ddlCriterio.DataValueField = "Id";
+                ddlCriterio.DataBind();
+            }
+
+          
         }
 
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+
+            string campo = ddlCampo.SelectedValue;
+            string criterio = ddlCriterio.SelectedValue;
+            string filtro = txtFiltroAvanzado.Text;
+
+            if (campo == "Nombre")
+            {
+                List<Articulo> listaFiltrada = ((List<Articulo>)Session["listaArticulos"])
+                .FindAll(x => x.Nombre.ToUpper().Contains(txtFiltroAvanzado.Text.ToUpper()));
+                CargarGridview(listaFiltrada);
+            }
+
+            else if(campo == "Proveedor"){
+
+                int idProveedor = int.Parse(ddlCriterio.SelectedValue);
+                string filtroAvanzado = txtFiltroAvanzado.Text.Trim().ToUpper();
+
+                List<Articulo> lista = (List<Articulo>)Session["listaArticulos"];
+
+                // Filtro por proveedor
+                var listaFiltrada = lista
+                    .Where(x => x.idProveedor == idProveedor)
+                    .Where(x => String.IsNullOrEmpty(filtroAvanzado) || 
+                    (x.Nombre != null && x.Nombre.ToUpper().Contains(filtroAvanzado)))
+                    .ToList();
+
+                CargarGridview(listaFiltrada);
+            }
+
+            else if(campo == "Categoria") 
+            {
+                int idCategoria = int.Parse(ddlCriterio.SelectedValue);
+                string filtroAvanzado = txtFiltroAvanzado.Text.Trim().ToUpper();
+
+                List<Articulo> lista = (List<Articulo>) Session["listaArticulos"];
+
+                // Filtro por categoria
+                var listaFiltrada = lista
+                    .Where(x => x.idCategoria == idCategoria)
+                    .Where(x => String.IsNullOrEmpty(filtroAvanzado) || 
+                    (x.Nombre != null && x.Nombre.ToUpper().Contains(filtroAvanzado)))
+                    .ToList();
+                
+                CargarGridview(listaFiltrada);
+            }
+            
+
 
         }
 
@@ -251,7 +334,7 @@ namespace GestionBicicleteria
                 {
                     btnConfirmarPresupuesto.Visible = true;
                     lblTotalApagar.Visible = true;
-                    
+
 
                     if (enPresupuesto == null)
                     {
@@ -484,17 +567,14 @@ namespace GestionBicicleteria
             ScriptManager.RegisterStartupScript(this, this.GetType(), "abrirOffcanvas",
                 "var offcanvas = new bootstrap.Offcanvas(document.getElementById('offcanvasRight')); offcanvas.show();", true);
         }
-
         protected void gvClientes_RowCommand(object sender, GridViewCommandEventArgs e)
         {
 
         }
-
         protected void btnAgregarCliente_Click(object sender, EventArgs e)
         {
             Response.Redirect("FormularioAltaCliente.aspx");
         }
-
         protected void btnConfirmarPresupuesto_Click(object sender, EventArgs e)
         {
 
@@ -533,11 +613,11 @@ namespace GestionBicicleteria
                 VentaItem item = new VentaItem();
                 item.IdVenta = idVenta;
                 item.IdProducto = art.Id;
-                item.Cantidad = art.Cantidad;   
+                item.Cantidad = art.Cantidad;
                 item.PrecioUnitario = art.Precio;
                 item.PrecioTotal = art.Precio * art.Cantidad;
 
-                itemNegocio.agregarVentaItem(item); 
+                itemNegocio.agregarVentaItem(item);
             }
 
             // Borramos los paneles Cliente y presupuesto.
@@ -547,7 +627,7 @@ namespace GestionBicicleteria
             btnConfirmarPresupuesto.Visible = false;
             btnCargaCliente.Visible = false;
             btnLimpiarPresupuesto.Visible = false;
-            
+
             ActualizarVistaPresupuesto();
             ActualizarVistaPanelCliente();
             actualizarTotalApagar();
@@ -563,10 +643,9 @@ namespace GestionBicicleteria
             ScriptManager.RegisterStartupScript(this, this.GetType(), "abrirModal", "abrirModal();", true);
 
 
-         //  Response.Redirect("Default.aspx"); 
+            //  Response.Redirect("Default.aspx"); 
 
         }
-
         protected void btnLimpiarCampor_Click(object sender, EventArgs e)
         {
             if (Session["clienteSeleccionado"] != null)
@@ -575,6 +654,13 @@ namespace GestionBicicleteria
                 Session.Remove("clienteSeleccionado");
                 limpiarPanelCliente();
             }
+        }
+
+        protected void ddlCriterio_TextChanged(object sender, EventArgs e)
+        {
+            if (ddlCriterio.SelectedValue != null)
+                txtFiltroAvanzado.Text = null;
+            
         }
     }
 }

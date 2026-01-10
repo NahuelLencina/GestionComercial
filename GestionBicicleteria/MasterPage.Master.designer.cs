@@ -33,15 +33,6 @@ namespace GestionBicicleteria
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// Control navFormArticulos.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink navFormArticulos;
-
-        /// <summary>
         /// Control navListadoVentas.
         /// </summary>
         /// <remarks>
@@ -51,13 +42,13 @@ namespace GestionBicicleteria
         protected global::System.Web.UI.WebControls.HyperLink navListadoVentas;
 
         /// <summary>
-        /// Control navfavoritos.
+        /// Control navFormArticulos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink navfavoritos;
+        protected global::System.Web.UI.WebControls.HyperLink navFormArticulos;
 
         /// <summary>
         /// Control btnLogin.

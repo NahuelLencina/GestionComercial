@@ -10,7 +10,7 @@
         <div class="col-4">
             <asp:Panel ID="pnlLogin" runat="server" DefaultButton="btnIngresar">
                 <div class="mb-3">
-                    <asp:Label ID="lblUsuario" runat="server" Text="Usuario"></asp:Label>
+                    <asp:Label ID="lblUsuario" runat="server" Text="Email"></asp:Label>
                     <asp:TextBox ID="txtUsuario" runat="server" CssClass="form-control"></asp:TextBox>
                 </div>
 

@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <asp:CheckBox ID="chkAvanzado" Text="Filtro Avanzado 🔍" CssClass="" AutoPostBack="true" OnCheckedChanged="chkAvanzado_CheckedChanged" runat="server" />
+                        <asp:CheckBox ID="chkAvanzado" Text="Filtro Avanzado 🔍" CssClass="" AutoPostBack="true" runat="server" />
                     </div>
 
 
@@ -41,6 +41,7 @@
                             <div class="mb-3">
                                 <asp:Label ID="lblCampo" runat="server" Text="Campo"></asp:Label>
                                 <asp:DropDownList ID="ddlCampo" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlCampo_SelectedIndexChanged" runat="server">
+                                    <asp:ListItem Text=""/>
                                     <asp:ListItem Text="Nombre" />
                                     <asp:ListItem Text="Proveedor" />
                                     <asp:ListItem Text="Categoria" />
@@ -52,14 +53,14 @@
                         <div class="col-3">
                             <div class="mb-3">
                                 <asp:Label runat="server" Text="Criterio"></asp:Label>
-                                <asp:DropDownList ID="ddlCriterio" CssClass="form-control" runat="server"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlCriterio" AutoPostBack="true" OnTextChanged="ddlCriterio_TextChanged" CssClass="form-control" runat="server"></asp:DropDownList>
                             </div>
                         </div>
 
                         <div class="col-3">
                             <div class="mb-3">
                                 <asp:Label Text="Filtro" runat="server" />
-                                <asp:TextBox ID="txtFiltroAvanzado" CssClass="form-control" runat="server"></asp:TextBox>
+                                <asp:TextBox ID="txtFiltroAvanzado" OnTextChanged="btnBuscar_Click" onfocus="this.select()" AutoPostBack="true" CssClass="form-control" runat="server"></asp:TextBox>
                             </div>
                         </div>
 
