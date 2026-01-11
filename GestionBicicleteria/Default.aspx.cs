@@ -29,6 +29,9 @@ namespace GestionBicicleteria
 
             FiltroAvanzado = chkAvanzado.Checked;
 
+            
+
+
             if (!IsPostBack)
             {
                 ArticuloNegocio negocio = new ArticuloNegocio();

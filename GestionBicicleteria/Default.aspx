@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <asp:CheckBox ID="chkAvanzado" Text="Filtro Avanzado 🔍" CssClass="" AutoPostBack="true" runat="server" />
+                        <asp:CheckBox ID="chkAvanzado" Text="Filtro Avanzado 🔍" CssClass="" OnCheckedChanged="chkAvanzado_CheckedChanged" AutoPostBack="true" runat="server" />
                     </div>
 
 
@@ -53,7 +53,7 @@
                         <div class="col-3">
                             <div class="mb-3">
                                 <asp:Label runat="server" Text="Criterio"></asp:Label>
-                                <asp:DropDownList ID="ddlCriterio" AutoPostBack="true" OnTextChanged="ddlCriterio_TextChanged" CssClass="form-control" runat="server"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlCriterio" AutoPostBack="true" OnTextChanged="ddlCriterio_TextChanged" OnSelectedIndexChanged="btnBuscar_Click" CssClass="form-control" runat="server"></asp:DropDownList>
                             </div>
                         </div>
 
